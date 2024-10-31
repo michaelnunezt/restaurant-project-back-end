@@ -29,10 +29,16 @@ app.use (morgan('dev'));
 //! Routes
 app.use('/cocktails', cocktailRouter);
 app.use('/foods', foodRouter);
-app.use('/users', usersRoute);
+app.use('/users', usersRouter);
 
 
-//! Auth route here is missing
+//! Auth route here is missing this part!
+app.get('/secure-path', verifyToken, async (req, res) => {
+  console.log('User available in controller:', req.user)
+  return res.json({ message: 'You accessed the secure path' })
+})
+
+
 
 app.listen(3000, () => {
   console.log('The express app is ready!');

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const cocktailSchema = mongoose.Schema({
   name: {
     type: String,
@@ -8,7 +9,6 @@ const cocktailSchema = mongoose.Schema({
 
   image: {
     type: String,
-    required: true,
   },
 
   method: {
@@ -16,13 +16,9 @@ const cocktailSchema = mongoose.Schema({
     required: true,
   },
 
-  ingredients: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-    },
+  ingredients: [{
+    type: String,
+  }
   ],
 
   glassType: {
@@ -32,10 +28,11 @@ const cocktailSchema = mongoose.Schema({
 
   garnish: String,
 
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
+  ownerId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+
+},{
+  timestamps: true
 });
 
 

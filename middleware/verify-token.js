@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // Model
-const User = require('./models/user');
+const User = require('../models/user');
 
 const verifyToken = async (req, res, next) => {
   try {
@@ -30,3 +30,5 @@ const verifyToken = async (req, res, next) => {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 }
+
+module.exports = verifyToken

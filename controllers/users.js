@@ -12,7 +12,7 @@ router.post('/signup', async (req, res) => {
     const { password, confirmPassword, username } = req.body
     //Checking the pass match
     if(password !== confirmPassword) {
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res.status(400).json({ error: 'Bad Request' })
     }
 
     // Check for existing user in the database
@@ -22,7 +22,7 @@ router.post('/signup', async (req, res) => {
     }
 
     // Hash Password
-    req.body.hashedPassword = bcrypt.hashSync(password, 10)
+    req.body.password = bcrypt.hashSync(password, 10)
 
     // Creation of the user
     const user = await User.create(req.body)
@@ -46,21 +46,20 @@ router.post('/signup', async (req, res) => {
 }) 
 
 // Sign In
-router.post('/signin', async (req,res) => {
+router.post('/signIn', async (req,res) => {
   try {
     const {username, password } = req.body
 
-    //checking the username exist in the database
-    const useer = await User.findOne({ username })
+    const user = await User.findOne({ username })
 
     //check user exists
     if(!user) {
       console.log('Attempt failed as username was incorrect')
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res.status(404).json({ error: 'User Not Found' })
     }
 
-    // Cmpare plain text password against the hash
-    if(!bcrypt.compareSync(password, user.hashedPassword)) {
+    // Compare plain text password against the hash
+    if(!bcrypt.compareSync(password, user.password)) {
       console.log('Attempt failed as password was not correct')
       return res.status(401).json({ error: 'Unauthorized' })
     }
@@ -75,7 +74,7 @@ router.post('/signin', async (req,res) => {
     })
 
     // Send the JWT back to client
-    return res,json({ user: payload, token })
+    return res.json({ user: payload, token })
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: error.message })

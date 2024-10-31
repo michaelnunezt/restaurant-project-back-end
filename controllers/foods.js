@@ -17,7 +17,8 @@ router.post('/', async (req, res) => {
 // Index
 router.get('/', async (req, res) => {
   try {
-    const foundFoods = await Food.find();
+
+    const foundFoods = await Food.findOne({});
     return res.json(foundFoods)
   } catch (error) {
     console.log(error)

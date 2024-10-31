@@ -40,6 +40,9 @@ const foodSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  ownerId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+
 });
 
 const Food = mongoose.model('Food', foodSchema);
