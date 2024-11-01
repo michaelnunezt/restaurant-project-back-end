@@ -8,7 +8,6 @@ const foodSchema = mongoose.Schema({
 
   image: {
     type: String,
-    required: true,
   },
 
   method: {
@@ -36,13 +35,10 @@ const foodSchema = mongoose.Schema({
 
   garnish: String,
 
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-
   ownerId:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 
+},{
+  timestamps: true
 });
 
 const Food = mongoose.model('Food', foodSchema);
